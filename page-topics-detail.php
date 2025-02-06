@@ -1,14 +1,20 @@
 <?php
 /**
  * Template Name: Topics Detail
- * Description: Custom template for "Über uns" or any single topic details
+ * Description: Custom template for single-topic details with partially editable content
  */
 
+// استدعاء رأس الموقع
 get_header(); 
 ?>
 
 <main id="top">
-    <!-- HEADER SECTION -->
+    <?php 
+    /**
+     * HERO SECTION (Hardcoded)
+     * يمكنك تركه كما هو (لا يتم تحريره من لوحة التحكم)
+     */
+    ?>
     <header class="site-header d-flex flex-column justify-content-center align-items-center">
         <div class="container">
             <div class="row justify-content-center align-items-center">
@@ -20,16 +26,19 @@ get_header();
                             <li class="breadcrumb-item">
                                 <a href="<?php echo home_url('/'); ?>">Startseite</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Über uns</li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <?php the_title(); ?>
+                            </li>
                         </ol>
                     </nav>
 
-                    <h2 class="text-white">Über die Deutsche Maqra'ah</h2>
+                    <h2 class="text-white"><?php the_title(); ?></h2>
 
                     <div class="d-flex align-items-center mt-5">
-                        <!-- If #ueberuns-detail is on same page, we can do a hash link, else a full URL -->
-                        <a href="#ueberuns-detail" class="btn custom-btn custom-border-btn smoothscroll me-4">
-                            Mehr erfahren
+                        <!-- مثال: زر Scroll إلى قسم معين في نفس الصفحة -->
+                        <a href="#ueberuns-detail" 
+                           class="btn custom-btn custom-border-btn smoothscroll me-4">
+                           Mehr erfahren
                         </a>
                         <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
                     </div>
@@ -37,7 +46,7 @@ get_header();
 
                 <div class="col-lg-5 col-12">
                     <div class="topics-detail-block bg-white shadow-lg">
-                        <!-- Example: use get_template_directory_uri() for images -->
+                        <!-- صورة ثابتة (Hardcoded) -->
                         <img src="<?php echo get_template_directory_uri(); ?>/images/topics/logo.svg"
                              class="topics-detail-block-image-basic img-fluid" 
                              alt="Über uns">
@@ -48,53 +57,44 @@ get_header();
         </div>
     </header>
 
-    <!-- ABOUT US DETAIL SECTION -->
+    <?php 
+    /**
+     * MAIN CONTENT SECTION
+     * هنا نعرض محتوى الصفحة الديناميكي من محرر WP (أو Elementor)
+     */
+    ?>
     <section class="topics-detail-section section-padding" id="ueberuns-detail">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-12 m-auto">
-                    <h3 class="mb-4">Unsere Vision und Mission</h3>
 
-                    <p>
-                        Die Deutsche Maqra'ah ist eine Plattform, die das gemeinsame Lesen, Rezitieren und 
-                        Lernen des Korans fördert. Unser Ziel ist es, Menschen unterschiedlicher Hintergründe 
-                        zusammenzubringen, um den Koran auf authentische Weise zu verstehen und zu verinnerlichen.
-                    </p>
+                    <?php
+                    // بدء الحلقة لجلب محتوى الصفحة من قاعدة البيانات
+                    while ( have_posts() ) :
+                        the_post();
+                        // عرض محتوى المحرر (يمكنك تحريره من داخل WP أو Elementor)
+                        the_content();
+                    endwhile;
+                    ?>
+                    
+                    <?php if ( function_exists('elementor_theme_do_location') && elementor_theme_do_location('single') ) : ?>
+    <?php elementor_theme_do_location('single'); ?>
+<?php else : ?>
 
-                    <p>
-                        <strong>Warum Deutsche Maqra'ah?</strong> Wir bieten eine vielfältige Auswahl an Lesearten, 
-                        erfahrene Scheiche und qualifizierte Lehrer, um Sie bei Ihrer Reise mit dem Koran zu begleiten.
-                    </p>
+<?php endif; ?>
 
-                    <blockquote>
-                        "Die Deutsche Maqra'ah ist ein Ort der Gemeinschaft, des Austauschs und des gemeinsamen 
-                        Wachsens am Wort des Allmächtigen."
-                    </blockquote>
 
-                    <div class="row my-4">
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/businesswoman-using-tablet-analysis.jpg"
-                                 class="topics-detail-block-image img-fluid" alt="Lernen mit Technologie">
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0 mt-md-0">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/colleagues-working-cozy-office-medium-shot.jpg"
-                                 class="topics-detail-block-image img-fluid" alt="Gemeinschaftliches Lernen">
-                        </div>
-                    </div>
-
-                    <p>
-                        Unsere Plattform bietet regelmäßige Lektionen, Einzel- und Gruppenstunden sowie spezielle 
-                        Workshops. Durch moderne Technologien und erfahrene Lehrer schaffen wir ein Umfeld, in dem 
-                        das Lernen des Korans angenehm und bereichernd ist. Unser Fokus liegt darauf, jedem Lernenden 
-                        die Möglichkeit zu geben, auf seinem individuellen Weg Fortschritte zu machen.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NEWSLETTER SECTION -->
+    <?php 
+    /**
+     * NEWSLETTER SECTION (Hardcoded) 
+     * يمكنك جعله ثابتًا أو تحويله إلى حقول مخصصة/Shortcode إن أردت تحريره مستقبلًا
+     */
+    ?>
     <section class="section-padding section-bg">
         <div class="container">
             <div class="row justify-content-center">
@@ -105,7 +105,8 @@ get_header();
                 </div>
 
                 <div class="col-lg-5 col-12 subscribe-form-wrap d-flex justify-content-center align-items-center">
-                    <form class="custom-form subscribe-form" action="#" method="post">
+                    <form class="custom-form subscribe-form" 
+                          action="#" method="post">
                         <h4 class="mb-4 pb-2">Newsletter abonnieren</h4>
 
                         <input type="email" 
@@ -117,7 +118,9 @@ get_header();
                                required="">
 
                         <div class="col-lg-12 col-12">
-                            <button type="submit" class="form-control">Abonnieren</button>
+                            <button type="submit" class="form-control">
+                                Abonnieren
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -127,4 +130,6 @@ get_header();
     </section>
 </main>
 
-<?php get_footer(); ?>
+<?php 
+// استدعاء ذيل الموقع
+get_footer();

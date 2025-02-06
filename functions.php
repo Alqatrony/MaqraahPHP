@@ -20,3 +20,20 @@ function wpdocs_deutscheMaqraah_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'wpdocs_deutscheMaqraah_scripts' );
 ?>
+
+<?php
+function mytheme_register_nav_menus() {
+    register_nav_menus(array(
+        'primary_menu' => __('Primary Menu', 'mytheme-textdomain'),
+    ));
+}
+add_action('after_setup_theme', 'mytheme_register_nav_menus');
+?>
+
+<?php
+function register_custom_elementor_widgets($widgets_manager) {
+    require_once get_template_directory() . '/inc/custom-elementor-blockquote.php';
+    $widgets_manager->register(new \Custom_Elementor_Blockquote_Widget());
+}
+add_action('elementor/widgets/register', 'register_custom_elementor_widgets');
+?>
